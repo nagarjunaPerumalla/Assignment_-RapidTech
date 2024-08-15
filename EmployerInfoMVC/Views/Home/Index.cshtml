@@ -1,0 +1,79 @@
+﻿@model List<EmployerInfoMVC.Models.Employerdata>
+
+@{
+    ViewBag.Title = "Home Page";
+}
+<head>
+    <script>
+window.onload = function () {
+
+var chart = new CanvasJS.Chart("chartContainer", {
+	theme: "light1",
+	exportEnabled: true,
+	animationEnabled: true,
+	title: {
+		text: "Employer Data"
+	},
+	data: [{
+		type: "pie",
+		startAngle: 180,
+		toolTipContent: "<b>{label}</b>: {y}%",
+		showInLegend: "true",
+		legendText: "{label}",
+		indexLabel: "{label} - {y}%",
+		dataPoints: @Html.Raw(ViewBag.DataPoints)
+        //dataPoints: [
+        //    { y: 79.45, label: "Google" },
+        //    { y: 7.31, label: "Bing" },
+        //    { y: 7.06, label: "Baidu" },
+        //    { y: 4.91, label: "Yahoo" },
+        //    { y: 1.26, label: "Others" }
+        //]
+	}]
+});
+chart.render();
+
+}
+    </script>
+</head>
+<script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+
+</style>
+<h1 id="tableLabel">Employer Data</h1>
+<div class="row">
+    <table>
+        <thead style="background-color:gray">
+            <tr>
+                <td>EmployeeName</td>
+                <td>Total Time In Month</td>
+                <td>Actions</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr style="@((item.TotalTime)<100 ? "background-color:orange" : "background-color:white")">
+                    <td>@item.EmployeeName </td>
+                    <td>@item.TotalTime hrs</td>
+                    <td><a href="#">Edit</a></td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+    <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+    
+</div>
